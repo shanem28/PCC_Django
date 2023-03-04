@@ -1,0 +1,18 @@
+{% extends 'blogs/base.html' %}
+
+{% block content %}
+<title>Shane's Blog</title>
+<h2>Blog Posts:</h2>
+<ul>
+    {% for post in posts %}
+    <li>
+        <a href="{% url 'blogs:view_post' post.id %}">{{ post.title }}</a>
+    </li>
+    {% empty %}
+    <p>No blog posts yet.</p>
+    {% endfor %}
+</ul>
+<p>
+    <a href="{% url 'blogs:create_post' %}">Create A New Post!</a>
+</p>
+{% endblock content %}

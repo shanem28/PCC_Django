@@ -1,0 +1,9 @@
+{% extends 'blogs/base.html' %}
+
+{% block content %}
+<title>Shane's Blog - {{ post.title }}</title>
+<h2>{{ post.title }}</h2>
+<p><i>{{ post.date_added }}</i></p>
+<main>{{ post.content }}</main>
+<p><a href="{% url 'blogs:edit_post' post.id %}">Edit Post</a></p>
+{% endblock content %}
