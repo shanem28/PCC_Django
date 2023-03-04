@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import Http404
 from .models import BlogPost
 from .forms import EntryForm
 
@@ -12,7 +14,10 @@ def index(request):
 
 def view_post(request, post_id):
     '''View a blog post.'''
-    post = BlogPost.objects.get(id=post_id)
+    try:
+        post = BlogPost.objects.get(id=post_id)
+    except ObjectDoesNotExist as DoesNotExist:
+        raise Http404
     context = {'post': post}
     return render(request, 'blogs/view_post.html', context)
 
@@ -34,9 +39,10 @@ def create_post(request):
 
 def edit_post(request, post_id):
     '''Edit an existing blog post'''
-    post = BlogPost.objects.get(id=post_id)
-    title = post.title
-    content = post.content
+    try:
+        post = BlogPost.objects.get(id=post_id)
+    except ObjectDoesNotExist as DoesNotExist:
+        raise Http404
 
     if request.method != 'POST':
         # Initialize and pre-fill form with blog post.
