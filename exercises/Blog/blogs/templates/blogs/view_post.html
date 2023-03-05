@@ -6,14 +6,20 @@
 <p><i>{{ post.date_added }}</i></p>
 <main>{{ post.content }}</main>
 <p>
+    {% if post.author == request.user %}
     <a href="{% url 'blogs:edit_post' post.id %}">Edit Post</a> -
+    {% endif %}
     <a href="{% url 'blogs:add_comment' post.id %}">Add Comment</a>
 </p>
 <ul>
     {% for comment in comments %}
     <li>
         {{ comment.comment }}
-        <p><a href="{% url 'blogs:edit_comment' post.id comment.id %}">Edit</a> - <i>Posted {{ comment.date_added }}</i>
+        <p>
+            {% if comment.author == request.user %}
+            <a href="{% url 'blogs:edit_comment' post.id comment.id %}">Edit</a> -
+            {% endif %}
+            <i>Posted by {{ comment.author }} on {{ comment.date_added }}</i>
         </p>
     </li>
     {% empty %}

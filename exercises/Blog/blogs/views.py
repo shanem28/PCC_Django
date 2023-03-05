@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
+
 from .models import BlogPost, Comment
 from .forms import EntryForm, CommentForm
 
@@ -23,6 +26,7 @@ def view_post(request, post_id):
     return render(request, 'blogs/view_post.html', context)
 
 
+@login_required
 def create_post(request):
     '''Add a new post.'''
     if request.method != 'POST':
@@ -31,18 +35,24 @@ def create_post(request):
     else:
         form = EntryForm(data=request.POST)
         if form.is_valid():
-            form.save()
+            new_post = form.save(commit=False)
+            new_post.author = request.user
+            new_post.save()
             return redirect('blogs:index')
     # Display a blank or invalid form
     context = {'form': form}
     return render(request, 'blogs/create_post.html', context)
 
 
+@login_required
 def edit_post(request, post_id):
     '''Edit an existing blog post'''
     try:
         post = BlogPost.objects.get(id=post_id)
     except ObjectDoesNotExist as DoesNotExist:
+        raise Http404
+
+    if post.author != request.user:
         raise Http404
 
     if request.method != 'POST':
@@ -58,6 +68,7 @@ def edit_post(request, post_id):
     return render(request, 'blogs/edit_post.html', context)
 
 
+@login_required
 def add_comment(request, post_id):
     '''Add a new comment on a blog post.'''
     post = BlogPost.objects.get(id=post_id)
@@ -69,6 +80,7 @@ def add_comment(request, post_id):
         if form.is_valid():
             comment = form.save(commit=False)
             comment.post = post
+            comment.author = request.user
             comment.save()
             return redirect('blogs:view_post', post_id=post_id)
     # Display a blank or invalid form
@@ -76,12 +88,16 @@ def add_comment(request, post_id):
     return render(request, 'blogs/add_comment.html', context)
 
 
+@login_required
 def edit_comment(request, post_id, comment_id):
     '''Edit an existing comment'''
     try:
         comment = Comment.objects.get(id=comment_id)
         post = comment.post
     except ObjectDoesNotExist as DoesNotExist:
+        raise Http404
+
+    if comment.author != request.user:
         raise Http404
 
     if request.method != 'POST':
