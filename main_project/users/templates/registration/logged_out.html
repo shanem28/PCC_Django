@@ -5,4 +5,9 @@
 {% endblock page_header %}
 
 {% block content %}
+<script>
+    setTimeout(function () {
+        window.location.href = "{% url 'learning_logs:index' %}";
+    }, 3000);
+</script>
 {% endblock content %}
