@@ -1,12 +1,17 @@
 {% extends "blogs/base.html" %}
+{% load bootstrap4 %}
+
+{% block page_header %}
+<h3><a href="{% url 'blogs:view_post' post.id %}">{{ post.title }}</a> - Add a new comment.</h3>
+{% endblock page_header %}
 
 {% block content %}
-<h2><a href="{% url 'blogs:view_post' post.id %}">{{ post.title }}</a></h2>
-<p>Add a new comment: </p>
-<form action-"{% url 'blogs:add_comment' post.id %}" method='post'>
+<form method='post' action="{% url 'blogs:add_comment' post.id %}" class="form">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button name="submit">Add Comment</button>
+    {% bootstrap_form form %}
+    {% buttons %}
+    <button name="submit" class="btn btn-primary">Add Comment</button>
+    {% endbuttons %}
 </form>
 
 {% endblock content %}
