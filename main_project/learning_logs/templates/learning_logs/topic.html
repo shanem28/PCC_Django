@@ -12,10 +12,12 @@
 <ul>
   {% for entry in entries %}
   <div class="card mb-3">
+    <!-- Card header with timestamp and edit link -->
     <h6 class="card-header">
       {{ entry.date_added|date:'M d, Y H:i' }}
       <small><a href="{% url 'learning_logs:edit_entry' entry.id %}">edit entry</a></small>
     </h6>
+    <!-- Card body with entry text -->
     <div class="card-body">
       {{ entry.text|linebreaks  }}
     </div>
