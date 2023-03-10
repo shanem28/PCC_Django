@@ -1,5 +1,5 @@
 {% extends "blogs/base.html" %}
-{% load bootstrap4 %}
+{% load django_bootstrap5 %}
 
 {% block page_header %}
 <h3>Add a new blog post.</h3>
@@ -11,9 +11,8 @@
 <form method='post' action="{% url 'blogs:create_post' %}" class="form">
     {% csrf_token %}
     {% bootstrap_form form %}
-    {% buttons %}
-    <button name="submit" class="btn btn-primary">Add Post</button>
-    {% endbuttons %}
+    <button name="submit" class="btn btn-primary">Create Post</button>
+    <a href="{% url 'blogs:index' %}" class="btn btn-primary">Cancel</a>
 </form>
 
 {% endblock content %}

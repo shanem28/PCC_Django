@@ -2,7 +2,7 @@
 
 {% block page_header %}
 <div class="card ">
-    <div class="card-header">
+    <div class="card-header fw-bold">
         {{ post.title }}
     </div>
     <div class="card-body">
@@ -10,28 +10,26 @@
     </div>
     <div class="card-footer text-muted">
         {% if post.author == request.user %}
-            <a href="{% url 'blogs:edit_post' post.id %}" class="btn btn-primary">Edit Post</a>
+        <a href="{% url 'blogs:edit_post' post.id %}" class="btn btn-primary">Edit Post</a>
         {% endif %}
-        
+
         Posted {{ post.date_added }} by {{ post.author }}
     </div>
 </div>
 {% endblock page_header %}
 
 {% block content %}
-
 <p>
     <a href="{% url 'blogs:add_comment' post.id %}">Add Comment</a>
 </p>
 <ul class="list-group">
-    
     {% for comment in comments %}
     <li class="list-group-item d-flex justify-content-between align-items-start">
         <div class="ms-2 me-auto">
-            <div class="fw-bold">{{ comment.comment }}</div>
-                {% if comment.author == request.user %}
-                    <a href="{% url 'blogs:edit_comment' post.id comment.id %}">Edit</a> -
-                {% endif %}
+            <div class="mb-2">{{ comment.comment }}</div>
+            {% if comment.author == request.user %}
+            <a href="{% url 'blogs:edit_comment' post.id comment.id %}" class="btn btn-primary btn-sm">Edit</a> -
+            {% endif %}
             <i>Posted by {{ comment.author }} on {{ comment.date_added }}</i>
         </div>
     </li>
@@ -42,6 +40,5 @@
         </div>
     </li>
     {% endfor %}
-
 </ul>
 {% endblock content %}

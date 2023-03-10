@@ -1,5 +1,5 @@
 {% extends 'blogs/base.html' %}
-{% load bootstrap4 %}
+{% load django_bootstrap5 %}
 
 {% block page_header %}
 <h3>Register for an account.</h3>
@@ -9,9 +9,8 @@
 <form method="post" action="{% url 'users:register' %}" class="form">
     {% csrf_token %}
     {% bootstrap_form form %}
-    {% buttons %}
     <button name="submit" class="btn btn-primary">Register</button>
-    {% endbuttons %}
+    <a href="{% url 'blogs:index' %}" class="btn btn-primary">Cancel</a>
     <input type="hidden" name="next" action="{% url 'blogs:index' %}" />
 </form>
 {% endblock content %}

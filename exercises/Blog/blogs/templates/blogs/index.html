@@ -1,16 +1,18 @@
 {% extends 'blogs/base.html' %}
 
 {% block page_header %}
-<div class="jumbotron">
-    <h1 class="display-3">Blog about anything!</h1>
-    <p class="lead"> Start blogging about any topic you desire, or comment on other users posts!
-    </p>
-    {% if user.is_authenticated %}
-    <a class="btn btn-lg btn-primary" href="{% url 'blogs:create_post' %}" role="button">Start Blogging &raquo;</a>
-    {% else %}
-    <a class="btn btn-lg btn-primary" href="{% url 'users:register' %}" role="button">Register &raquo;</a>
-    <a class="btn btn-lg btn-primary" href="{% url 'users:login' %}" role="button">Login &raquo;</a>
-    {% endif %}
+<div class="p-3 mb-4 bg-light border rounded-3">
+    <div class="container-fluid py-4">
+        <h1 class="display-3">Blog about anything!</h1>
+        <p class="lead"> Start blogging about any topic you desire, or comment on other users posts!
+        </p>
+        {% if user.is_authenticated %}
+        <a class="btn btn-lg btn-primary" href="{% url 'blogs:create_post' %}" role="button">Start Blogging &raquo;</a>
+        {% else %}
+        <a class="btn btn-lg btn-primary" href="{% url 'users:register' %}" role="button">Register &raquo;</a>
+        <a class="btn btn-lg btn-primary" href="{% url 'users:login' %}" role="button">Login &raquo;</a>
+        {% endif %}
+    </div>
 </div>
 {% endblock page_header %}
 
